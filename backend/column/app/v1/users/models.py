@@ -1,6 +1,6 @@
 from mongoengine import Document, StringField, DateTimeField, BooleanField, connect
 import datetime
-from ...app import db
+# from ...app import db
 
 connect(db='column', alias='default', host='mongodb+srv://Solexgreat:solexgreat1$@cluster0.wekq3.mongodb.net')
 
