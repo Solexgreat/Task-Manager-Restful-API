@@ -20,7 +20,7 @@ class UserBase(CustomBaseModel, UserNoDate):
 class UserCreate(UserNoDate):
 	password: t.Optional[str]
 
-	class config:
+	class Config:
 		orm_mode = True
 
 class User(UserBase, CustomIdModel):

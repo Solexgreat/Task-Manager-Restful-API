@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from bson.json_util import dumps
-import names
-from datamodel import User
+from column.app.v1.users.models import User
+from column.app.v1.users.schemas import UserCreate
+from column.app.v1.users.controller import create_user
+from werkzeug.exceptions import BadRequest, InternalServerError
 from bson import ObjectId
+
 
 app = Flask(__name__)
 client = MongoClient("mongodb+srv://Solexgreat:solexgreat1$@cluster0.wekq3.mongodb.net/")
@@ -14,10 +17,17 @@ db = client.flask_example_db
 def index():
 	return "Hello, Flask with mongodb"
 
-@app.route("/create")
+@app.route("/create-user", methods=["POST"])
 def add_user():
-  result = db.users.insert_one({"name": names.get_full_name()})
-  return str(result.inserted_id)
+	data= request.json
+	new_user = UserCreate(**data)
+	if User.objects(email=new_user.email).first():
+		raise BadRequest(f"User with emai {new_user.email} already exsit")
+
+	new_user = create_user(new_user)
+	return jsonify(new_user)
+  # result = db.users.insert_one({"name": names.get_full_name()})
+  # return str(result.inserted_id)
 
 @app.route("/list")
 def get_user():

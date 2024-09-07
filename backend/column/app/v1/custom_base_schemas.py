@@ -27,8 +27,8 @@ class CustomBaseModel(BaseModel):
 class CustomIdModel(CustomBaseModel):
 	id: t.Optional[PyObjectId]= Field(alias='_id')
 
-	class config:
+	class Config:
 		arbitrary_types_allowed = True
-		json_encoder = {
+		json_encoders = {
 			ObjectId : str
 		}
