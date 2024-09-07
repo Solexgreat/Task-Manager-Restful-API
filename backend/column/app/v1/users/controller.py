@@ -21,6 +21,7 @@ def create_user(new_user: schemas.UserCreate) -> user_model.User:
 	new_user_dict = new_user.model_dump(exclude_unset=True)
 	if "password" in new_user_dict and new_user_dict["password"]:
 		hashed_password = get_hashed_password(new_user_dict["password"])
-		new_user_dict["password"] = hashed_password
+		new_user_dict["password_hash"] = hashed_password
+		new_user_dict.pop("password")
 	saved_user = user_model.User(**new_user_dict).save()
-	return new_user
+	return saved_user
