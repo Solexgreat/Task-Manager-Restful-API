@@ -7,7 +7,7 @@ from bson import ObjectId
 class PyObjectId(ObjectId):
 
 	@classmethod
-	def __get__validators__(cls):
+	def __get_validators__(cls):
 
 		yield cls.validate
 
@@ -18,8 +18,9 @@ class PyObjectId(ObjectId):
 		return ObjectId(e)
 
 	@classmethod
-	def __modify_schema__(cls, field_schema):
-		field_schema.update(type='string')
+	def __get_pydantic_json_schema__(cls, schema, handler):
+			schema.update(type='string')
+			return schema
 
 class CustomBaseModel(BaseModel):
 	created_at: t.Optional[datetime.datetime]
