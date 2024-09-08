@@ -18,7 +18,7 @@ class PyObjectId(ObjectId):
 		return ObjectId(e)
 
 	@classmethod
-	def __get_pydantic_json_schema__(cls, schema, handler):
+	def __get_pydantic_json_schema__(cls, schema):
 			schema.update(type='string')
 			return schema
 

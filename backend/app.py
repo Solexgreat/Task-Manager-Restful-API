@@ -40,7 +40,7 @@ def get_user(user_id):
 	user1 = get_user_by_Id(obj_id)
 	user_dict = user1.to_mongo().to_dict()
 	user_dict['_id'] = str(user_dict['_id'])
-	return jsonify(user_dict, user2)
+	return dumps(user2)
 	# users =  list(db.user.find({}))
 	# if users:
 	# 	return dumps(users)
