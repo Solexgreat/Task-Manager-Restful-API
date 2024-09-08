@@ -3,9 +3,10 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from column.app.v1.users.models import User
 from column.app.v1.users.schemas import UserCreate
-from column.app.v1.users.controller import create_user
+from column.app.v1.users.controller import create_user, get_user_by_Id
 from werkzeug.exceptions import BadRequest, InternalServerError
 from bson import ObjectId
+from column.app.v1.custom_base_schemas import PyObjectId
 
 
 app = Flask(__name__)
@@ -28,18 +29,25 @@ def add_user():
 		raise BadRequest(f"User with email {new_user.email} already exist")
 
 	created_user = create_user(new_user)
-	return jsonify(created_user.to_mongo().dict())
-  # result = db.users.insert_one({"name": names.get_full_name()})
-  # return str(result.inserted_id)
+	user_dict = created_user.to_mongo().to_dict()
+	user_dict['_id'] = str(user_dict['_id'])
+	return jsonify(user_dict)
 
-@app.route("/list")
-def get_user():
-		user = db.users.find_one({"name": "Nilda Duffie"})
-		if user:
-			users= dumps(user)
-			return (users)
-		else:
-			return "User not find"
+@app.route("/user/<user_id>", methods=['GET'])
+def get_user(user_id):
+	obj_id = PyObjectId.validate(user_id)
+	user2 = db.user.find_one({'_id': obj_id})
+	user1 = get_user_by_Id(obj_id)
+	user_dict = user1.to_mongo().to_dict()
+	user_dict['_id'] = str(user_dict['_id'])
+	return jsonify(user_dict, user2)
+	# users =  list(db.user.find({}))
+	# if users:
+	# 	return dumps(users)
+	# else:
+	# 	return "User not find"
+
+
 
 # @app.route('/tasks', methods=['POST'])
 # def create_task():

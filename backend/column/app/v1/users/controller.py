@@ -1,6 +1,7 @@
 from . import models as user_model, schemas
 from flask import abort
 from ..core.security import get_hashed_password
+from bson import ObjectId
 
 
 
@@ -9,7 +10,7 @@ def get_user_by_Id(user_id: str) -> user_model.User:
 		Get user by objectId
 
 	"""
-	user = user_model.User.__objects.get(user_id = id)
+	user = user_model.User.objects.get(id = ObjectId(user_id))
 	if not user:
 		raise abort(404, description='User not found')
 	return user
