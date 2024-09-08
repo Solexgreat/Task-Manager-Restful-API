@@ -34,7 +34,7 @@ def add_user():
 	user_dict['_id'] = str(user_dict['_id'])
 	return jsonify(user_dict)
 
-@app.route("/user/<user_id>", methods=['GET'])
+@app.route("/user/id/<user_id>", methods=['GET'])
 def get_user(user_id):
 	obj_id = PyObjectId.validate(user_id)
 	# user2 = db.user.find_one({'_id': obj_id})
@@ -47,8 +47,8 @@ def get_user(user_id):
 		return jsonify({"error": "user not found"})
 	# return jsonify(json.loads(json_util.dumps(user2)))
 
-@app.route("/user/<email_id>", methods=['GET'])
-def get_user(email_id):
+@app.route("/user/email/<email_id>", methods=['GET'])
+def user_by_email(email_id):
 	user = get_user_by_email(email_id)
 	if user:
 		user_dict = user.to_mongo().to_dict()
@@ -57,6 +57,20 @@ def get_user(email_id):
 	else:
 		return jsonify({"error": "user not found"})
 
+@app.route("/update/<user_id>", methods=['POST'])
+def update_user(user_id):
+	"""
+	"""
+	data = request.json
+	try:
+		obj_id = PyObjectId.validate(user_id)
+		if obj_id:
+			user = db.user.update_one({'_id': obj_id},{**data})
+			user_dict = user.to_mongo().to_dict()
+			user_dict['_id'] = str(user_dict['id'])
+			return jsonify (user_dict)
+	except Exception:
+		raise BadRequest("Invalid user Id")
 
 
 

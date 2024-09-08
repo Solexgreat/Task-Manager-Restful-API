@@ -31,7 +31,8 @@ def get_user_by_email(user_email: str)-> user_model.User:
 	"""
 			Get user by email
 	"""
-	user = user_model.User.objects.get(email= user_email)
-	if user:
+	try:
+		user = user_model.User.objects.get(email= user_email)
 		return user
-	raise abort(404, description= "user not found")
+	except Exception:
+		raise abort(404, description= "user not found")
