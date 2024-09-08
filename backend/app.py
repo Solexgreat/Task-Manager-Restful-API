@@ -3,10 +3,11 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from column.app.v1.users.models import User
 from column.app.v1.users.schemas import UserCreate
-from column.app.v1.users.controller import create_user, get_user_by_Id
+from column.app.v1.users.controller import create_user, get_user_by_Id, get_user_by_email
 from werkzeug.exceptions import BadRequest, InternalServerError
-from bson import ObjectId
+from bson import ObjectId, json_util
 from column.app.v1.custom_base_schemas import PyObjectId
+import json
 
 
 app = Flask(__name__)
@@ -36,16 +37,26 @@ def add_user():
 @app.route("/user/<user_id>", methods=['GET'])
 def get_user(user_id):
 	obj_id = PyObjectId.validate(user_id)
-	user2 = db.user.find_one({'_id': obj_id})
-	user1 = get_user_by_Id(obj_id)
-	user_dict = user1.to_mongo().to_dict()
-	user_dict['_id'] = str(user_dict['_id'])
-	return dumps(user2)
-	# users =  list(db.user.find({}))
-	# if users:
-	# 	return dumps(users)
-	# else:
-	# 	return "User not find"
+	# user2 = db.user.find_one({'_id': obj_id})
+	user = get_user_by_Id(obj_id)
+	if user:
+		user_dict = user.to_mongo().to_dict()
+		user_dict['_id'] = str(user_dict['_id'])
+		return jsonify(user_dict)
+	else:
+		return jsonify({"error": "user not found"})
+	# return jsonify(json.loads(json_util.dumps(user2)))
+
+@app.route("/user/<email_id>", methods=['GET'])
+def get_user(email_id):
+	user = get_user_by_email(email_id)
+	if user:
+		user_dict = user.to_mongo().to_dict()
+		user_dict['_id'] = str(user_dict['_id'])
+		return jsonify(user_dict)
+	else:
+		return jsonify({"error": "user not found"})
+
 
 
 

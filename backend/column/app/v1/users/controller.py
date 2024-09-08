@@ -26,3 +26,12 @@ def create_user(new_user: schemas.UserCreate) -> user_model.User:
 		new_user_dict.pop("password")
 	saved_user = user_model.User(**new_user_dict).save()
 	return saved_user
+
+def get_user_by_email(user_email: str)-> user_model.User:
+	"""
+			Get user by email
+	"""
+	user = user_model.User.objects.get(email= user_email)
+	if user:
+		return user
+	raise abort(404, description= "user not found")
