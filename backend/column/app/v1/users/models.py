@@ -13,6 +13,7 @@ class User(Document):
     first_name = StringField(max_length= 200)
     is_active = BooleanField(required=True, default=True)
     is_superuser = BooleanField(required=True, default=True)
+    reset_token = StringField()
     password_hash = StringField(requried=True)
     created_at = DateTimeField(default=datetime.datetime.now())
     updated_at = DateTimeField(default=datetime.datetime.now())
