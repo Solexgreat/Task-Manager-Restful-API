@@ -18,30 +18,6 @@ app = Flask(__name__)
 
 
 
-
-@app.route("/reset_tokens/<user_email>", methods=['GET'], strict_slashes=False)
-def reset_token(user_email):
-	try:
-		reset_token = get_reset_password_token(user_email)
-		return jsonify({"reset_token": reset_token}), 200
-	except BadRequest as e:
-			return jsonify({"error": str(e)}), 400
-	except Exception as e:
-			return jsonify({"error": "An error occurred"}), 500
-
-@app.route("/reset_password", methods=['POST'], strict_slashes=False)
-def reset_password():
-	data = request.json
-	try:
-		updated_password= update_password(data['reset_token'], data['password'])
-		if updated_password is None:
-			return jsonify({"success": "password changed successfully"}), 200
-	except BadRequest as e:
-		return jsonify({'error': str(e)}), 400
-	except Exception as e:
-		return jsonify({"error": str(e)}), 500
-
-
 # @app.route('/tasks', methods=['POST'])
 # def create_task():
 # 	data = request.get_json()
