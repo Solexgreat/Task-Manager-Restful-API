@@ -2,7 +2,7 @@ from . import models as user_model, schemas
 from flask import abort
 from ..core.security import get_hashed_password
 from bson import ObjectId
-
+import datetime
 
 
 def get_user_by_Id(user_id: str) -> user_model.User:
@@ -37,4 +37,13 @@ def get_user_by_email(user_email: str)-> user_model.User:
 	except Exception:
 		raise abort(404, description= "user not found")
 
-def u
+def update_user_by_id(user_id: ObjectId, data: dict)-> user_model.User:
+	"""
+			Updating user by Id
+	"""
+	user = user_model.User.objects(id = user_id).first()
+	if not user:
+		raise abort(404, description = "user not found")
+	return user_model.User.objects(id=user_id).update(
+		**{f'set_{key}':value for key, value in data.items()},
+		set__updated_at=datetime.datetime.now())

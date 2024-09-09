@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from column.app.v1.users.models import User
 from column.app.v1.users.schemas import UserCreate
-from column.app.v1.users.controller import create_user, get_user_by_Id, get_user_by_email
+from column.app.v1.users.controller import create_user, get_user_by_Id, get_user_by_email, update_user_by_id
 from werkzeug.exceptions import BadRequest, InternalServerError
 from bson import ObjectId, json_util
 from column.app.v1.custom_base_schemas import PyObjectId
@@ -64,16 +64,18 @@ def update_user(user_id):
 	"""
 	data = request.json
 	obj_id = PyObjectId.validate(user_id)
+	updated_user = update_user_by_id(obj_id, data)
+	user_dict = updated_user.to_mongo().to_dict()
+	user_dict['_id'] = str(user_dict['id'])
+	return jsonify(user_dict)
 	# Pymongo Methods
 	# result = db.user.update_one({'_id': obj_id},{'$set':
 	# 																						{**data, 'updated_at': datetime.datetime.now()}})
 	# if result.matched_count == 0:
 	# 	return jsonify({"error": "user not found"})
-
 	# user = db.user.find_one({"_id": obj_id})
 	# return jsonify (json.loads(json_util.dumps(user)))
-	user_dict = user.to_mongo().to_dict()
-	user_dict['_id'] = str(user_dict['id'])
+
 
 
 
