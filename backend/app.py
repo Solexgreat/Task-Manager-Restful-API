@@ -66,7 +66,7 @@ def update_user(user_id):
 	obj_id = PyObjectId.validate(user_id)
 	updated_user = update_user_by_id(obj_id, data)
 	user_dict = updated_user.to_mongo().to_dict()
-	user_dict['_id'] = str(user_dict['id'])
+	user_dict['_id'] = str(user_dict['_id'])
 	return jsonify(user_dict)
 	# Pymongo Methods
 	# result = db.user.update_one({'_id': obj_id},{'$set':

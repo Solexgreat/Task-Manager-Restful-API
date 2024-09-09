@@ -44,6 +44,7 @@ def update_user_by_id(user_id: ObjectId, data: dict)-> user_model.User:
 	user = user_model.User.objects(id = user_id).first()
 	if not user:
 		raise abort(404, description = "user not found")
-	return user_model.User.objects(id=user_id).update(
-		**{f'set_{key}':value for key, value in data.items()},
+	user_model.User.objects(id=user_id).update(
+		**{f'set__{key}':value for key, value in data.items()},
 		set__updated_at=datetime.datetime.now())
+	return user
