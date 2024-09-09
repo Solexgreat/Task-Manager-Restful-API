@@ -8,6 +8,7 @@ from werkzeug.exceptions import BadRequest, InternalServerError
 from bson import ObjectId, json_util
 from column.app.v1.custom_base_schemas import PyObjectId
 import json
+import datetime
 
 
 app = Flask(__name__)
@@ -57,20 +58,23 @@ def user_by_email(email_id):
 	else:
 		return jsonify({"error": "user not found"})
 
-@app.route("/update/<user_id>", methods=['POST'])
+@app.route("/update/<user_id>", methods=['PUT'])
 def update_user(user_id):
 	"""
 	"""
 	data = request.json
-	try:
-		obj_id = PyObjectId.validate(user_id)
-		if obj_id:
-			user = db.user.update_one({'_id': obj_id},{**data})
-			user_dict = user.to_mongo().to_dict()
-			user_dict['_id'] = str(user_dict['id'])
-			return jsonify (user_dict)
-	except Exception:
-		raise BadRequest("Invalid user Id")
+	obj_id = PyObjectId.validate(user_id)
+	# Pymongo Methods
+	# result = db.user.update_one({'_id': obj_id},{'$set':
+	# 																						{**data, 'updated_at': datetime.datetime.now()}})
+	# if result.matched_count == 0:
+	# 	return jsonify({"error": "user not found"})
+
+	# user = db.user.find_one({"_id": obj_id})
+	# return jsonify (json.loads(json_util.dumps(user)))
+	user_dict = user.to_mongo().to_dict()
+	user_dict['_id'] = str(user_dict['id'])
+
 
 
 

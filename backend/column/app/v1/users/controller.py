@@ -36,3 +36,5 @@ def get_user_by_email(user_email: str)-> user_model.User:
 		return user
 	except Exception:
 		raise abort(404, description= "user not found")
+
+def u
