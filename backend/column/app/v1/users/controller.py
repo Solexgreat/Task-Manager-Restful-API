@@ -48,3 +48,5 @@ def update_user_by_id(user_id: ObjectId, data: dict)-> user_model.User:
 		**{f'set__{key}':value for key, value in data.items()},
 		set__updated_at=datetime.datetime.now())
 	return user
+
+	# def delete_user(us)

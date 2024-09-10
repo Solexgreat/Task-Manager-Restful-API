@@ -1,18 +1,14 @@
-from flask import Blueprint, request, jsonify
-from pymongo import MongoClient
-from column.app.v1.users.controller import create_user, get_user_by_Id, get_user_by_email, update_user_by_id
-from column.app.v1.core.security import get_reset_password_token, update_password
+from flask import  request, jsonify, current_app
+from ..column.app.v1.users.controller import create_user, get_user_by_Id, get_user_by_email, update_user_by_id
+from ..column.app.v1.core.security import get_reset_password_token, update_password
 from werkzeug.exceptions import BadRequest
-from column.app.v1.users.models import User
-from column.app.v1.users.schemas import UserCreate
+from ..column.app.v1.users.models import User
+from ..column.app.v1.users.schemas import UserCreate
 from bson import ObjectId, json_util
 from bson.json_util import dumps
-from column.app.v1.custom_base_schemas import PyObjectId
+from ..column.app.v1.custom_base_schemas import PyObjectId
+from . import user_bp
 
-user_bp = Blueprint('user', __name__)
-
-client = MongoClient("mongodb+srv://Solexgreat:solexgreat1$@cluster0.wekq3.mongodb.net/")
-db = client.flask_example_db
 
 
 @user_bp.route('/')
@@ -34,7 +30,7 @@ def add_user():
 	user_dict['_id'] = str(user_dict['_id'])
 	return jsonify(user_dict)
 
-@user_bp.route("/user/id/<user_id>", methods=['GET'])
+@user_bp.route("/id/<user_id>", methods=['GET'])
 def get_user(user_id):
 	obj_id = PyObjectId.validate(user_id)
 	# user2 = db.user.find_one({'_id': obj_id})
@@ -47,7 +43,7 @@ def get_user(user_id):
 		return jsonify({"error": "user not found"})
 	# return jsonify(json.loads(json_util.dumps(user2)))
 
-@user_bp.route("/user/email/<email_id>", methods=['GET'])
+@user_bp.route("/email/<email_id>", methods=['GET'])
 def user_by_email(email_id):
 	user = get_user_by_email(email_id)
 	if user:
@@ -70,7 +66,6 @@ def update_user(user_id):
 	# Pymongo Methods
 	# result = db.user.update_one({'_id': obj_id},{'$set':
 	# 																						{**data, 'updated_at': datetime.datetime.now()}})
-	# if result.matched_count == 0:
 	# 	return jsonify({"error": "user not found"})
 	# user = db.user.find_one({"_id": obj_id})
 	# return jsonify (json.loads(json_util.dumps(user)))

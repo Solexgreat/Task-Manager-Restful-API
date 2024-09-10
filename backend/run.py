@@ -1,19 +1,11 @@
-from flask import Flask, request, jsonify
-
-from column.app.v1.custom_base_schemas import PyObjectId
-import json
-import datetime
-
-
-from routes import create_app
+from flask import Flask
+from . import create_app
 
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+  app.run(debug=True)
 
-
-app = Flask(__name__)
 
 
 
@@ -32,8 +24,3 @@ app = Flask(__name__)
 # 		user_id = user,
 # 	)
 # 	return jsonify({'_id': str(task.id)}), 201
-
-
-
-if __name__ == '__main__':
-	app.run(debug=True)
