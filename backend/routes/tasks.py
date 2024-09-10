@@ -1,7 +1,9 @@
-from flask import request, jsonify
+from flask import request, jsonify, current_app,json
 from . import task_bp
-from ..column.app.v1.tasks.controller import create_task
+from ..column.app.v1.tasks.controller import create_task, get_task, update_task
 from werkzeug.exceptions import BadRequest
+from ..column.app.v1.custom_base_schemas import PyObjectId
+from bson import json_util
 
 
 @task_bp.route("/create_task", methods=['POST'])
@@ -14,3 +16,30 @@ def create__task():
 		return jsonify({"error": str(e)}), 400
 	except Exception as e:
 		return jsonify({"error": str(e)}), 500
+
+@task_bp.route("/get_task/<identifier>", methods=['GET'])
+def get__task(identifier):
+	obj_id = PyObjectId.validate(identifier)
+	try:
+		task = get_task(obj_id)
+		return jsonify(task), 200
+		# task = list(current_app.db.tasks.find({'user_id': obj_id}))
+		# return jsonify(json.loads(json_util.dumps(task)))
+	except BadRequest as e:
+		return jsonify({"error": str(e)}), 400
+	except Exception as e:
+		return jsonify ({"error": str(e)}), 500
+	
+@task_bp.route("/update_task", methods=['PUT'])
+def update__task():
+	data = request.json
+	try:
+		task = update_task(data["id"], data)
+		task_dict = task.to_mongo().to_dict()
+		task_dict['id']= str(task_dict['id'])
+		task_dict['user_id'] = str(task_dict['user_id'])
+		return jsonify(task_dict), 200
+	except BadRequest as e:
+		return jsonify({"error": str(e)}), 404
+	except Exception as e:
+		return jsonify({'error': str(e)}), 500

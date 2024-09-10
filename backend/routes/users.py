@@ -65,7 +65,7 @@ def update_user(user_id):
 	return jsonify(user_dict)
 	# Pymongo Methods
 	# result = db.user.update_one({'_id': obj_id},{'$set':
-	# 																						{**data, 'updated_at': datetime.datetime.now()}})
+	# 					{**data, 'updated_at': datetime.datetime.now()}})
 	# 	return jsonify({"error": "user not found"})
 	# user = db.user.find_one({"_id": obj_id})
 	# return jsonify (json.loads(json_util.dumps(user)))
