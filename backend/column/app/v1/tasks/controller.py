@@ -53,9 +53,19 @@ def update_task(task_id: str, data: dict)-> tasks_model.Tasks:
 	if not task:
 		raise abort(404, description="task not found")
 
-	tasks_model.Tasks.objects(id=task_id).update(
-		**{f'set__{key}': value for key, value in data.items()},
-			set__updated_at = datetime.datetime.now()
-		})
+	#Update all the updated field
+	updated_field = {f'set__{key}': value for key, value in data.items()}
+
+	#Update the updated_at field
+	updated_field['updated_at']= datetime.datetime.now()
+
+	#Check if due_date id present then update the task
+	if 'due_date' in data:
+		updated_field['due_date'] = data.get('due_date')
+
+	#perform the update
+	task.update(**updated_field)
+
+	task.reload()
 
 	return task

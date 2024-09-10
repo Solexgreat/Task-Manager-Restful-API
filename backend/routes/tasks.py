@@ -30,16 +30,31 @@ def get__task(identifier):
 	except Exception as e:
 		return jsonify ({"error": str(e)}), 500
 	
-@task_bp.route("/update_task", methods=['PUT'])
-def update__task():
+@task_bp.route("/update_task/<task_id>", methods=['PUT'])
+def update__task(task_id):
 	data = request.json
 	try:
-		task = update_task(data["id"], data)
+		task = update_task(task_id, data)
 		task_dict = task.to_mongo().to_dict()
-		task_dict['id']= str(task_dict['id'])
+		task_dict['_id']= str(task_dict['_id'])
 		task_dict['user_id'] = str(task_dict['user_id'])
 		return jsonify(task_dict), 200
 	except BadRequest as e:
 		return jsonify({"error": str(e)}), 404
 	except Exception as e:
 		return jsonify({'error': str(e)}), 500
+
+@task_bp.route("/delete/<task_id>", methods=['DELETE'])
+def delete_task(task_id):
+	"""
+	    Delete a specific task
+	"""
+	try:
+		obj_id = PyObjectId.validate(task_id)
+		task = current_app.db.tasks.find_one({'id': obj_id})
+		if task:
+			return jsonify({"message": "Task delete Successfully"}), 200
+	except BadRequest as e:
+		return jsonify ({"error": str(e)}), 404
+	except Exception as e:
+		return jsonify ({"error": str(e)}), 500
