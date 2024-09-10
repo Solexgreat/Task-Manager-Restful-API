@@ -51,9 +51,11 @@ def delete_task(task_id):
 	"""
 	try:
 		obj_id = PyObjectId.validate(task_id)
-		task = current_app.db.tasks.find_one({'id': obj_id})
+		task = current_app.db.tasks.delete_one({'id': obj_id})
 		if task:
 			return jsonify({"message": "Task delete Successfully"}), 200
+		else:
+			raise BadRequest("Invalid request")
 	except BadRequest as e:
 		return jsonify ({"error": str(e)}), 404
 	except Exception as e:
