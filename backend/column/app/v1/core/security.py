@@ -11,7 +11,7 @@ def get_hashed_password(password: str)-> bytes:
 	"""
 	salt = bcrypt.gensalt()
 	hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-	return hashed
+	return hashed.decode('utf-8')
 
 def _generate_uuid():
 	"""
@@ -19,6 +19,12 @@ def _generate_uuid():
 			string uuid
 	"""
 	return str(uuid.uuid4())
+
+def verify_password(plain_password: str, hashed_password:bytes)-> bool:
+	"""
+			verify password and return True or False
+	"""
+	return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password)
 
 def get_reset_password_token(user_email: str)-> str:
 	"""

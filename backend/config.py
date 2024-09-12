@@ -7,7 +7,7 @@ load_dotenv
 class Config:
      # Fetch environment variables, with fallback default values if necessary
     SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')
-    MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Solexgreat:solexgreat1$@cluster0.wekq3.mongodb.net/")
+    MONGO_URI = os.getenv('MONGO_URI')
 
     if not MONGO_URI:
         raise Exception ("MONGO_URI not set in environment variables")

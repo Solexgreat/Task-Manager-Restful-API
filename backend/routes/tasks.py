@@ -3,10 +3,12 @@ from . import task_bp
 from ..column.app.v1.tasks.controller import create_task, get_task, update_task
 from werkzeug.exceptions import BadRequest
 from ..column.app.v1.custom_base_schemas import PyObjectId
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from bson import json_util
 
 
 @task_bp.route("/create_task", methods=['POST'])
+@jwt_required()
 def create__task():
 	try:
 		data = request.json
@@ -29,8 +31,9 @@ def get__task(identifier):
 		return jsonify({"error": str(e)}), 400
 	except Exception as e:
 		return jsonify ({"error": str(e)}), 500
-	
+
 @task_bp.route("/update_task/<task_id>", methods=['PUT'])
+@jwt_required()
 def update__task(task_id):
 	data = request.json
 	try:
@@ -45,6 +48,7 @@ def update__task(task_id):
 		return jsonify({'error': str(e)}), 500
 
 @task_bp.route("/delete/<task_id>", methods=['DELETE'])
+@jwt_required()
 def delete_task(task_id):
 	"""
 	    Delete a specific task
