@@ -2,6 +2,8 @@ from . import models as tasks_model
 from flask import current_app, abort
 from bson import ObjectId
 import datetime
+from flask_jwt_extended import get_jwt_identity
+
 
 
 
@@ -50,8 +52,13 @@ def update_task(task_id: str, data: dict)-> tasks_model.Tasks:
 			Upddate and return the updated task
 	"""
 	task = tasks_model.Tasks.objects(id=task_id).first()
+
+	current_user_id = get_jwt_identity()
+	if task.user_id != current_user_id:
+		abort(403, description="You do not have permission to modify this task")
+
 	if not task:
-		raise abort(404, description="task not found")
+		abort(404, description="task not found")
 
 	#Update all the updated field
 	updated_field = {f'set__{key}': value for key, value in data.items()}

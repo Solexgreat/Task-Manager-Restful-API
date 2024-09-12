@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
 
+
 # Load environment variables from .env file
-load_dotenv
+load_dotenv()
 
 class Config:
      # Fetch environment variables, with fallback default values if necessary

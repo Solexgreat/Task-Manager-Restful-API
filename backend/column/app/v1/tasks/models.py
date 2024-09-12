@@ -1,8 +1,6 @@
-from mongoengine import Document, StringField, DateTimeField, ReferenceField, connect
+from mongoengine import Document, StringField, DateTimeField, ReferenceField
 import datetime
 from ..users.models import User
-
-connect(db='flask_example_db', alias='default', host='mongodb+srv://Solexgreat:solexgreat1$@cluster0.wekq3.mongodb.net')
 
 
 

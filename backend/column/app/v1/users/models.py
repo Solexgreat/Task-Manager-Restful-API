@@ -1,8 +1,7 @@
-from mongoengine import Document, StringField, DateTimeField, BooleanField, connect
+from mongoengine import Document, StringField, DateTimeField, BooleanField
 import datetime
 # from ...app import db
 
-connect(db='flask_example_db', alias='default', host='mongodb+srv://Solexgreat:solexgreat1$@cluster0.wekq3.mongodb.net')
 
 
 # Insert a new user
