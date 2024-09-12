@@ -21,7 +21,7 @@ def register_error_handlers(app):
 
 	@app.errorhandler(403)
 	def forbidden(error):
-    return jsonify({"error": "You don't have permission to access this resource", "status_code": 403}), 403
+		return jsonify({"error": "You don't have permission to access this resource", "status_code": 403}), 403
 
 	#Catch any uncaught error gobally
 	@app.errorhandler(Exception)
