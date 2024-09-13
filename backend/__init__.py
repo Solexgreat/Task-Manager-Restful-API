@@ -5,7 +5,7 @@ from .config import Config
 from pymongo import MongoClient
 from mongoengine import connect
 from .routes import user_bp, task_bp, auth_bp
-from column.app.v1.error import register_error_handlers
+from .column.app.v1.error import register_error_handlers
 
 
 def create_app():
@@ -15,7 +15,8 @@ def create_app():
   app.config.from_object(Config)
 
   #Configure your secret key for encoding JWT
-  app.config['JWT_SECRET_KEY'] = 'secret_key'
+  app.config['JWT_SECRET_KEY'] = app.config['JWT_SECRET']
+
 
   #initialize JWT manger
   jwt = JWTManager(app)
