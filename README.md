@@ -1,86 +1,91 @@
 # Task Manager RESTful API
 
-![Task Manager API](https://img.shields.io/badge/Node.js-12.0.0-green) ![MongoDB](https://img.shields.io/badge/MongoDB-v4.2.0-yellowgreen)
-
-## Description
-
-The **Task Manager RESTful API** is a backend application designed to manage tasks efficiently. It allows users to create, read, update, and delete tasks, enabling smooth task management. This API is built with **Node.js**, **Express.js**, and **MongoDB**, providing a robust framework for handling data and requests.
-
-## Features
-
-- **User Authentication**: Secure user registration and login using JWT.
-- **Task Management**: Create, read, update, and delete tasks.
-- **User-Specific Tasks**: Each user can manage their own tasks.
-- **Data Validation**: Input validation using [Joi](https://joi.dev/) for robust error handling.
-- **Environment Configuration**: Easy configuration using a `.env` file.
+## Overview
+The Task Manager RESTful API is a robust and scalable application designed to help users manage their tasks efficiently. This API allows users to create, read, update, and delete tasks, making it a versatile tool for personal or team productivity.
 
 ## Technologies Used
+- **Flask**: A lightweight WSGI web application framework in Python.
+- **MongoDB**: A NoSQL database for storing task data.
+- **Flask-PyMongo**: A Flask extension for working with MongoDB.
+- **Marshmallow**: A library for object serialization and deserialization.
+- **JWT (JSON Web Token)**: For secure user authentication.
+- **Python**: The programming language used to develop the API.
 
-- **Node.js**: JavaScript runtime for server-side scripting.
-- **Express.js**: Web application framework for Node.js.
-- **MongoDB**: NoSQL database for storing task and user data.
-- **Mongoose**: ODM library for MongoDB and Node.js.
-- **Joi**: Validation library for JavaScript objects.
+## Features
+- User registration and authentication using JWT.
+- CRUD operations for tasks (Create, Read, Update, Delete).
+- Task filtering by user and status.
+- Error handling for better user experience.
+- API documentation with Swagger for easy exploration.
 
 ## Getting Started
 
 ### Prerequisites
-
-- Node.js (12.x or higher)
-- MongoDB (Local or Atlas)
+- Python 3.x
+- MongoDB
 
 ### Installation
-
 1. Clone the repository:
    ```bash
    git clone https://github.com/Solexgreat/Task-Manager-Restful-API.git
-   cd Task-Manager-Restful-API
-   ```
+Navigate to the project directory:
+bash
+Copy code
+cd Task-Manager-Restful-API
+Create a virtual environment (optional but recommended):
+bash
+Copy code
+python -m venv venv
+Activate the virtual environment:
+On Windows:
+bash
+Copy code
+venv\Scripts\activate
+On macOS/Linux:
+bash
+Copy code
+source venv/bin/activate
+Install the required packages:
+bash
+Copy code
+pip install -r requirements.txt
+Configuration
+Set up your MongoDB connection string in the config.py file:
+python
+Copy code
+MONGO_URI = "mongodb://<username>:<password>@localhost:27017/task_manager"
+Create the necessary collections in your MongoDB database.
+Running the Application
+Run the application using:
 
-2. Install the dependencies:
-   ```bash
-   npm install
-   ```
+bash
+Copy code
+python app.py
+The API will be available at http://localhost:5000.
 
-3. Create a `.env` file in the root directory and add your MongoDB URI:
-   ```
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   ```
+API Endpoints
+POST /api/auth/register: Register a new user.
+POST /api/auth/login: Authenticate user and retrieve JWT.
+GET /api/tasks: Retrieve all tasks for the authenticated user.
+POST /api/tasks: Create a new task.
+GET /api/tasks/<task_id>: Retrieve a specific task by ID.
+PUT /api/tasks/<task_id>: Update a task by ID.
+DELETE /api/tasks/<task_id>: Delete a task by ID.
+Contributing
+Contributions are welcome! Please feel free to submit a pull request or open an issue to discuss improvements or suggestions.
 
-4. Start the server:
-   ```bash
-   npm start
-   ```
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-5. The API will be running on `http://localhost:3000`.
+Acknowledgments
+Flask Documentation
+MongoDB Documentation
+arduino
+Copy code
 
-## API Endpoints
+Feel free to customize any sections as needed! This README covers the project overview, technologies used, features, setup instructions, and API endpoints clearly and concisely.
 
-### User Authentication
 
-- **POST** `/api/users` - Register a new user
-- **POST** `/api/users/login` - Login an existing user
 
-### Task Management
 
-- **GET** `/api/tasks` - Get all tasks for the authenticated user
-- **GET** `/api/tasks/:id` - Get a task by ID
-- **POST** `/api/tasks` - Create a new task
-- **PATCH** `/api/tasks/:id` - Update a task by ID
-- **DELETE** `/api/tasks/:id` - Delete a task by ID
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a pull request or open an issue to discuss improvements or features.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-- [Express](https://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/)
-- [Mongoose](https://mongoosejs.com/)
-- [Joi](https://joi.dev/)
