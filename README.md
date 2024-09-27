@@ -62,31 +62,23 @@ Run the application using:
 ```bash
 python app.py
 ```
-The API will be available at http://localhost:5000.
+The API will be available at ```http://localhost:5000.```
 
-API Endpoints
-POST /api/auth/register: Register a new user.
-POST /api/auth/login: Authenticate user and retrieve JWT.
-GET /api/tasks: Retrieve all tasks for the authenticated user.
-POST /api/tasks: Create a new task.
-GET /api/tasks/<task_id>: Retrieve a specific task by ID.
-PUT /api/tasks/<task_id>: Update a task by ID.
-DELETE /api/tasks/<task_id>: Delete a task by ID.
-Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue to discuss improvements or suggestions.
+## API Endpoints
+- POST /api/auth/register: Register a new user.
+- POST /api/auth/login: Authenticate user and retrieve JWT.
+- GET /api/tasks: Retrieve all tasks for the authenticated user.
+- POST /api/tasks: Create a new task.
+- GET /api/tasks/<task_id>: Retrieve a specific task by ID.
+- PUT /api/tasks/<task_id>: Update a task by ID.
+- DELETE /api/tasks/<task_id>: Delete a task by ID.
+  
+## Contributing
+Contributions are appreciated, you can submit a pull request or open an issue to discuss improvements or suggestions.
 
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-Acknowledgments
-Flask Documentation
-MongoDB Documentation
-arduino
-Copy code
-
-Feel free to customize any sections as needed! This README covers the project overview, technologies used, features, setup instructions, and API endpoints clearly and concisely.
-
-
+## Acknowledgments
+- Flask Documentation
+- MongoDB Documentation
 
 
 
